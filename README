@@ -24,6 +24,7 @@
   2-1) make a directory (e.g., 'mkdir CohJpsi') under generateLHE directory, copy the generated STARlight output file in step 1-3) to 'CohJpsi' directory, and rename the STARlight output file (e.g., 'mv slight.out slight.CohJpsi.out'). It is better to also copy the STARlight configuration file (slight.in) to CohJpsi directory, which can remind people the exact settings in the future.
 
   2-2) under 'generateLHE' directory, execute './splitSTARlight.sh 4000 CohJpsi' to split the large STARlight output file (4000 means each small file has 1000 STARlight events). This script simply call the 'split' command.
+       -- NOTE, if one runs this script in macOS, please install gsplit, comment out the split command, and then use the gsplit command.
 
   2-3) under 'generateLHE' directory, execute './convertLHE.sh CohJpsi' to convert the splitted STARlight output files to CMS LHE files. This script calls 'convert_SL2LHE.C' macro, one can directly run this macro by using 'root -l -b -q convert_SL2LHE.C', of course, a valid input file is needed. In this step, one can apply some additional filters in convert_SL2LHE.C, e.g., pair rapidity filter, kinematic filter of daughters etc. The kinematic filter of daughter particle is not recommended, because one needs to evaluate detector acceptance in Jpsi analysis.
 

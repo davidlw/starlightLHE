@@ -25,7 +25,7 @@ fi
 
 cmsEnergyDiv2=2510
 
-for inputFile in `ls $PWD/$dir/splitFiles/slight*`
+for inputFile in `ls $dir/splitFiles/slight*`
 do
     echo $inputFile
 
