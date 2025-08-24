@@ -5,7 +5,7 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
         pythiaPylistVerbosity = cms.untracked.int32(1),
         filterEfficiency = cms.untracked.double(1.0),
         pythiaHepMCVerbosity = cms.untracked.bool(False),
-        comEnergy = cms.double(5020.),
+        comEnergy = cms.double(5360.),
         PythiaParameters = cms.PSet(
             parameterSets = cms.vstring('skip_hadronization'),
             skip_hadronization = cms.vstring('ProcessLevel:all = off',
@@ -13,20 +13,20 @@ generator = cms.EDFilter("Pythia8HadronizerFilter",
             )
         )
 
-muplusfilter = cms.EDFilter("MCSingleParticleFilter",
-        Status = cms.untracked.vint32(1, 1),
-        MinPt = cms.untracked.vdouble(0.7, 0.7),
-        MinEta = cms.untracked.vdouble(1.28, -2.42),
-        MaxEta = cms.untracked.vdouble(2.42, -1.28),
-        ParticleID = cms.untracked.vint32(-13, -13),
+kaonplusfilter = cms.EDFilter("MCSingleParticleFilter",
+        Status = cms.untracked.vint32(1),
+        MinPt = cms.untracked.vdouble(0.05),
+        MinEta = cms.untracked.vdouble(-2.5),
+        MaxEta = cms.untracked.vdouble(2.5),
+        ParticleID = cms.untracked.vint32(321),
         )
 
-muminusfilter = cms.EDFilter("MCSingleParticleFilter",
-        Status = cms.untracked.vint32(1, 1),
-        MinPt = cms.untracked.vdouble(0.7, 0.7),
-        MinEta = cms.untracked.vdouble(1.28, -2.42),
-        MaxEta = cms.untracked.vdouble(2.42, -1.28),
-        ParticleID = cms.untracked.vint32(13, 13),
+kaonminusfilter = cms.EDFilter("MCSingleParticleFilter",
+        Status = cms.untracked.vint32(1,),
+        MinPt = cms.untracked.vdouble(0.05),
+        MinEta = cms.untracked.vdouble(-2.5),
+        MaxEta = cms.untracked.vdouble(2.5),
+        ParticleID = cms.untracked.vint32(+321),
         )
 
-ProductionFilterSequence = cms.Sequence(generator*muplusfilter*muminusfilter)
+ProductionFilterSequence = cms.Sequence(generator*kaonplusfilter*kaonminusfilter)

@@ -1,5 +1,3 @@
-import importlib, sys
-
 from CRABAPI.RawCommand import crabCommand
 from CRABClient.ClientExceptions import ClientException
 from http.client import HTTPException  # updated import for Python 3
@@ -16,7 +14,7 @@ config.General.transferLogs = False
 
 config.section_('JobType')
 config.JobType.pluginName = 'Analysis'
-#config.JobType.psetName = 'step3_STARlight_Reco_cfg.py'
+#config.JobType.psetName = 'step4_STARlight_miniAOD_cfg.py'
 config.JobType.numCores = 1
 config.JobType.allowUndistributedCMSSW = True
 
@@ -58,9 +56,9 @@ dataMap = {
 #            "STARlight_CohJpsi2MuMu_XnXn_PbPb5TeV_Reco_v1": { "Dataset": "/STARlight_CohJpsi2MuMu_XnXn_PbPb5TeV_GenFilter/shuaiy-STARlight_CohJpsi2MuMu_XnXn_PbPb5TeV_Digi_v1-c652f3d0771ac294a6a8110896e6f94d/USER", "Memory": 2000, "RunTime": 1000 },
 
 #
-            "STARlight_CohPhi2KKinOOAt5p36TeV_LHE_Reco_v2": { "Dataset": "", "Memory": 3500, "RunTime": 1000, "PSet": "step3_STARlight_Reco_cfg.py" },
-            "STARlight_CohPhi2KKinpOAt9p9TeV_LHE_Reco_v2": { "Dataset": "", "Memory": 3500, "RunTime": 1000, "PSet": "step3_STARlight_Reco_pO_cfg.py" },
-            "STARlight_CohPhi2KKinNeNeAt5p36TeV_LHE_Reco_v2": { "Dataset": "", "Memory": 3500, "RunTime": 1000, "PSet": "step3_STARlight_Reco_NeNe_cfg.py" },            
+            "STARlight_CohPhi2KKinOOAt5p36TeV_LHE_miniAOD_v2": { "Dataset": "", "Memory": 2500, "RunTime": 1000, "PSet": "step4_STARlight_miniAOD_cfg.py" },
+            "STARlight_CohPhi2KKinpOAt9p9TeV_LHE_miniAOD_v2": { "Dataset": "", "Memory": 2500, "RunTime": 1000, "PSet": "step4_STARlight_miniAOD_pO_cfg.py" },
+            "STARlight_CohPhi2KKinNeNeAt5p36TeV_LHE_miniAOD_v2": { "Dataset": "", "Memory": 2500, "RunTime": 1000, "PSet": "step4_STARlight_miniAOD_NeNe_cfg.py" },            
             }
 
 ## Submit job for different datasets 
@@ -68,16 +66,9 @@ for key, val in dataMap.items():
     config.General.requestName = key
     config.JobType.maxMemoryMB = val["Memory"]
     config.JobType.maxJobRuntimeMin = val["RunTime"]
-    config.JobType.psetName = val["PSet"]    
+    config.JobType.psetName = val["PSet"]
     config.Data.inputDataset = val["Dataset"]
     config.Data.outputDatasetTag = config.General.requestName
-    config.Data.outLFNDirBase = '/store/group/phys_heavyions/davidlw/starlight/Reco/'
+    config.Data.outLFNDirBase = '/store/group/phys_heavyions/davidlw/starlight/miniAOD/'
     print("Submitting CRAB job for: "+val["Dataset"])
-
-    # --- workaround to avoid CMSSW config caching ---
-    if 'cmsRun' in sys.modules:
-        del sys.modules['cmsRun']
-    if 'FWCore.ParameterSet.Config' in sys.modules:
-        del sys.modules['FWCore.ParameterSet.Config']
-    
     submit(config)
