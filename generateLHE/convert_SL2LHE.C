@@ -34,7 +34,7 @@ http://cmssw.cvs.cern.ch/cgi-bin/cmssw.cgi/UserCode/kumarv/Input/StarToHepmc.C?v
 
 using namespace std;
 
-void convert_SL2LHE(string infilename = "output_all/slight_CohPsi2S_4Feeddown_0001.tx", string outfilename = "starlight_LHEtest", double beamE1 = 2510, double beamE2 = 2510) //makeEventsFile
+void convert_SL2LHE(string infilename = "output_all/slight_CohPsi2S_4Feeddown_0001.tx", string outfilename = "starlight_LHEtest", double beamE1 = 2510, double beamE2 = 2510, double dauID = 13) //makeEventsFile
 {
     char ofName[100];
     sprintf(ofName,"%s.lhe", outfilename.c_str());
@@ -108,14 +108,14 @@ void convert_SL2LHE(string infilename = "output_all/slight_CohPsi2S_4Feeddown_00
         //TParticle particle(pdg_id_temp, 0, 0, 0, 0, 0, px_temp, py_temp, pz_temp, 0.0, 0.0, 0.0, 0.0, 0.0);
         //TRACK:      6   2.9797       3.1399       84.461          1      1      0    -13
         if(NTrk == (int)px.size()){
-            if(TMath::Abs(pdg_id[0])==13 && TMath::Abs(pdg_id[1])==13){
+            if(TMath::Abs(pdg_id[0])==dauID && TMath::Abs(pdg_id[1])==dauID){
                 TLorentzVector fourMom1(px[0], py[0], pz[0], e[0]);
                 TLorentzVector fourMom2(px[1], py[1], pz[1], e[1]);
 
                 TLorentzVector motherFourMom = fourMom1 + fourMom2;
                 double y = motherFourMom.Rapidity();
 
-                if(TMath::Abs(y)>1.45 && TMath::Abs(y)<2.45){
+//                if(TMath::Abs(y)>1.45 && TMath::Abs(y)<2.45){
                     if(nAccEvts) output << "</event>" << endl;
                     output << "<event>" << endl;
 
@@ -125,7 +125,7 @@ void convert_SL2LHE(string infilename = "output_all/slight_CohPsi2S_4Feeddown_00
                     }
 
                     nAccEvts++;
-                }
+//                }
             }
             else{
                 cout<<"The first two tracks are not muons !"<<endl;
